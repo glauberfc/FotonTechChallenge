@@ -1,30 +1,31 @@
 import { ApolloServer } from 'apollo-server'
-import { makeExecutableSchema, IResolvers } from 'graphql-tools'
+import { makeExecutableSchema } from 'graphql-tools'
+import * as mongoose from 'mongoose'
 
-import * as BookType from './src/modules/book/BookType'
-import * as AuthorType from './src/modules/author/AuthorType'
+import { typeDefs } from './src/graphql/typeDefs'
+import { resolvers } from './src/graphql/resolvers'
 
+// Connect to DB
+mongoose
+  .connect(
+    'mongodb://127.0.0.1:27017/FotonTechChallengeDB',
+    {
+      useCreateIndex: true,
+      useNewUrlParser: true,
+    }
+  )
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.log(err))
+
+// Define GraphQL server
 const SchemaDefinition = `
   schema {
     query: Query
   }
-  type Query {
-    books: [Book]
-    authors: [Author]
-  }
 `
 
-const typeDefs = [BookType.typeDefs, AuthorType.typeDefs]
-
-const resolvers: IResolvers = {
-  Query: {
-    ...BookType.resolvers,
-    ...AuthorType.resolvers,
-  },
-}
-
 const schema = makeExecutableSchema({
-  typeDefs: [SchemaDefinition, ...typeDefs],
+  typeDefs: [SchemaDefinition, typeDefs],
   resolvers,
 })
 
