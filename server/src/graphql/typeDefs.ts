@@ -2,7 +2,7 @@ import { gql } from 'apollo-server'
 
 export const typeDefs = gql`
   type Product {
-    _id: ID!
+    _id: String!
     name: String!
     description: String!
     quantity: Int!

@@ -4,23 +4,22 @@ import { Product } from '../models/Product'
 export const resolvers: IResolvers = {
   Query: {
     product: async (_, { _id }) => {
-      const product = await Product.findOne(_id)
+      const product = await Product.findOne({ _id })
 
       return product
     },
+    products: async _ => {
+      const products = await Product.find()
+
+      return products.map(item => (item._id = item._id.toString()))
+    },
   },
   Mutation: {
-    addProduct: async (_, { name, description, quantity, price, provider }) => {
-      const newProduct = new Product({
-        name,
-        description,
-        quantity,
-        price,
-        provider,
-      })
+    addProduct: async (_, args) => {
+      const newProduct = await new Product(args).save()
+      newProduct._id = newProduct._id.toString()
 
-      const product = await newProduct.save()
-      return product
+      return newProduct
     },
   },
 }
