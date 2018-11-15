@@ -2,8 +2,8 @@ import { ApolloServer } from 'apollo-server'
 import { makeExecutableSchema } from 'graphql-tools'
 import * as mongoose from 'mongoose'
 
-import { typeDefs } from './src/graphql/typeDefs'
-import { resolvers } from './src/graphql/resolvers'
+import { typeDefs } from './graphql/typeDefs'
+import { resolvers } from './graphql/resolvers'
 
 // Connect to DB
 mongoose
@@ -14,13 +14,14 @@ mongoose
       useNewUrlParser: true,
     }
   )
-  .then(() => console.log('MongoDB connected'))
+  .then(() => console.log('🚀  MongoDB connected'))
   .catch(err => console.log(err))
 
 // Define GraphQL server
 const SchemaDefinition = `
   schema {
     query: Query
+    mutation: Mutation
   }
 `
 
