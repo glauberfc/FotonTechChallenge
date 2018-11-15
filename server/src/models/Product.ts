@@ -3,11 +3,6 @@ import * as mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const ProductSchema = new Schema({
-  _id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   name: {
     type: String,
     required: true,
@@ -29,5 +24,13 @@ const ProductSchema = new Schema({
     required: true,
   },
 })
+
+// const ProductModel: mongoo = mongoose.model('Product', {
+//   name: String,
+//   description: String,
+//   quantity: Number,
+//   price: Float,
+//   provider: String,
+// })
 
 export const Product = mongoose.model('Product', ProductSchema)
