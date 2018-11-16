@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '../styled-components-config'
+import { ButtonProps } from 'react-native'
 
 const ButtonContainer = styled.TouchableOpacity`
   padding: 10px;
@@ -12,13 +13,8 @@ const ButtonTitle = styled.Text`
   color: #fff;
 `
 
-interface ButtonProps {
-  title: string
-  onPress: () => void
-}
-
-const Button = ({ title, onPress }: ButtonProps) => (
-  <ButtonContainer onPress={onPress}>
+const Button = ({ title, ...props }: ButtonProps) => (
+  <ButtonContainer {...props}>
     <ButtonTitle>{title}</ButtonTitle>
   </ButtonContainer>
 )
