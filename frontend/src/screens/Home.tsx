@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { FlatList, ButtonProps, View, Text } from 'react-native'
+import { FlatList, Button as NativeButton, View, Text } from 'react-native'
 import { Query } from 'react-apollo'
 import { NavigationScreenProps } from 'react-navigation'
 
@@ -10,7 +10,7 @@ import {
   ProductsQuery_products,
 } from '../graphql/types/ProductsQuery'
 import Button from '../components/Button'
-import { ProductQuery_product } from '../graphql/types/ProductQuery'
+import { signOut } from '../utils'
 
 const Container = styled.View`
   display: flex;
@@ -106,9 +106,19 @@ const Home: React.SFC<NavigationScreenProps> = props => {
   )
 }
 
-Home.navigationOptions = {
+Home.navigationOptions = props => ({
   title: 'Foton Store',
   headerBackTitle: null,
-}
+  headerRight: (
+    <NativeButton
+      onPress={() => {
+        signOut()
+        props.screenProps.changeLoginState(false)
+      }}
+      title="Sair"
+      color="#fff"
+    />
+  ),
+})
 
 export default Home
