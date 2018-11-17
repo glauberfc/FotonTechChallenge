@@ -4,6 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "mongod": "mongod --config /usr/local/etc/mongod.conf",
     "start": "nodemon --watch src --exec ts-node src/index.ts -e ts"
   },
   "dependencies": {
