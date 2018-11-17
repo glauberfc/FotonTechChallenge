@@ -4,7 +4,7 @@ import Login from '../screens/Login'
 import SignUp from '../screens/SignUp'
 import Home from '../screens/Home'
 import Details from '../screens/Details'
-import Create from '../screens/RegisterProduct'
+import RegisterProduct from '../screens/RegisterProduct'
 
 const navigationOptions: NavigationScreenOptions = {
   headerStyle: {
@@ -20,10 +20,10 @@ export const RootStack = createStackNavigator(
   {
     Home,
     Details,
-    Create,
+    RegisterProduct,
   },
   {
-    initialRouteName: 'Create',
+    initialRouteName: 'Home',
     navigationOptions,
   }
 )
@@ -35,7 +35,7 @@ export const AuthStack = createStackNavigator(
     RootStack,
   },
   {
-    initialRouteName: 'SignUp',
+    initialRouteName: 'Login',
     navigationOptions,
   }
 )
