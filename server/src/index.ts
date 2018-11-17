@@ -30,7 +30,12 @@ const schema = makeExecutableSchema({
   resolvers,
 })
 
-const server = new ApolloServer({ schema })
+const server = new ApolloServer({
+  schema,
+  context: ({ req }: any) => ({
+    token: req.headers.token,
+  }),
+})
 
 server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`)

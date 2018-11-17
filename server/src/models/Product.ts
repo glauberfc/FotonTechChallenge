@@ -25,12 +25,4 @@ const ProductSchema = new Schema({
   },
 })
 
-// const ProductModel: mongoo = mongoose.model('Product', {
-//   name: String,
-//   description: String,
-//   quantity: Number,
-//   price: Float,
-//   provider: String,
-// })
-
 export const Product = mongoose.model('Product', ProductSchema)
