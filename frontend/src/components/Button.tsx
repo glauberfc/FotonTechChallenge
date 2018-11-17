@@ -5,7 +5,7 @@ import { ButtonProps } from 'react-native'
 const ButtonContainer = styled.TouchableOpacity`
   padding: 10px;
   border-radius: 4px;
-  background-color: #555;
+  background-color: ${props => props.theme.primaryColor};
 `
 
 const ButtonTitle = styled.Text`
