@@ -1,3 +1,5 @@
+
+
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
@@ -6,19 +8,20 @@
 // ====================================================
 
 export interface ProductQuery_product {
-  name: string
-  description: string
-  quantity: number
-  price: number
-  provider: string
+  id: string;
+  name: string;
+  description: string;
+  quantity: number;
+  price: number;
+  provider: string;
 }
 
 export interface ProductQuery {
-  product: ProductQuery_product
+  product: ProductQuery_product;
 }
 
 export interface ProductQueryVariables {
-  name: string
+  id: string;
 }
 
 /* tslint:disable */

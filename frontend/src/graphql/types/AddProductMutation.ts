@@ -4,17 +4,27 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: ProductsQuery
+// GraphQL mutation operation: AddProductMutation
 // ====================================================
 
-export interface ProductsQuery_products {
-  id: string;
+export interface AddProductMutation_addProduct {
   name: string;
   description: string;
+  quantity: number;
+  price: number;
+  provider: string;
 }
 
-export interface ProductsQuery {
-  products: ProductsQuery_products[];
+export interface AddProductMutation {
+  addProduct: AddProductMutation_addProduct;
+}
+
+export interface AddProductMutationVariables {
+  name: string;
+  description: string;
+  quantity: number;
+  price: number;
+  provider: string;
 }
 
 /* tslint:disable */

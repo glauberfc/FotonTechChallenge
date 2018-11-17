@@ -4,17 +4,25 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: ProductsQuery
+// GraphQL mutation operation: LoginMutation
 // ====================================================
 
-export interface ProductsQuery_products {
+export interface LoginMutation_login_user {
   id: string;
-  name: string;
-  description: string;
 }
 
-export interface ProductsQuery {
-  products: ProductsQuery_products[];
+export interface LoginMutation_login {
+  token: string | null;
+  user: LoginMutation_login_user | null;
+}
+
+export interface LoginMutation {
+  login: LoginMutation_login | null;
+}
+
+export interface LoginMutationVariables {
+  email: string;
+  password: string;
 }
 
 /* tslint:disable */

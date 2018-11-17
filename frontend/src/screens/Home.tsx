@@ -5,8 +5,12 @@ import { NavigationScreenProps } from 'react-navigation'
 
 import styled from '../styled-components-config'
 import { productsQuery } from '../graphql/queries'
-import { ProductsQuery } from '../graphql/types/ProductsQuery'
+import {
+  ProductsQuery,
+  ProductsQuery_products,
+} from '../graphql/types/ProductsQuery'
 import Button from '../components/Button'
+import { ProductQuery_product } from '../graphql/types/ProductQuery'
 
 const Container = styled.View`
   display: flex;
@@ -50,6 +54,8 @@ const Home: React.SFC<NavigationScreenProps> = props => {
   return (
     <Query<ProductsQuery> query={productsQuery}>
       {({ loading, error, data }) => {
+        let products: ProductsQuery_products[] | null = []
+
         if (loading) {
           return (
             <View>
@@ -58,39 +64,50 @@ const Home: React.SFC<NavigationScreenProps> = props => {
           )
         }
 
-        return (
-          <Container>
-            <Title>Produtos</Title>
+        if (error)
+          return (
+            <View>
+              <Text>{`Error!: ${error}`}</Text>
+            </View>
+          )
 
-            <FlatList
-              data={data.products}
-              keyExtractor={(item, i) => i.toString()}
-              renderItem={({ item, index }) => (
-                <Card>
-                  <Info>
-                    <PersonName>{item.name}</PersonName>
-                  </Info>
+        if (data && data.products) {
+          products = data.products
 
-                  <Button
-                    title="Ver detalhes"
-                    onPress={() => {
-                      navigation.push('Details', {
-                        productName: item.name,
-                      })
-                    }}
-                  />
-                </Card>
-              )}
-            />
-          </Container>
-        )
+          return (
+            <Container>
+              <Title>Produtos</Title>
+
+              <FlatList
+                data={data.products}
+                keyExtractor={(item, i) => i.toString()}
+                renderItem={({ item, index }) => (
+                  <Card>
+                    <Info>
+                      <PersonName>{item.name}</PersonName>
+                    </Info>
+
+                    <Button
+                      title="Ver detalhes"
+                      onPress={() => {
+                        navigation.push('Details', {
+                          productId: item.id,
+                        })
+                      }}
+                    />
+                  </Card>
+                )}
+              />
+            </Container>
+          )
+        }
       }}
     </Query>
   )
 }
 
 Home.navigationOptions = {
-  title: 'Produtos',
+  title: 'Foton Store',
   headerBackTitle: null,
 }
 

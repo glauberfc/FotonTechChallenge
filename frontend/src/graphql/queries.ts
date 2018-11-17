@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 export const productsQuery = gql`
   query ProductsQuery {
     products {
+      id
       name
       description
     }
@@ -10,8 +11,9 @@ export const productsQuery = gql`
 `
 
 export const productQuery = gql`
-  query ProductQuery($name: String!) {
-    product(name: $name) {
+  query ProductQuery($id: String!) {
+    product(id: $id) {
+      id
       name
       description
       quantity

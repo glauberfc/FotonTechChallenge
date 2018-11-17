@@ -7,7 +7,9 @@ import { productQuery } from '../graphql/queries'
 import {
   ProductQuery,
   ProductQueryVariables,
+  ProductQuery_product,
 } from '../graphql/types/ProductQuery'
+import { View, Text } from 'react-native'
 
 const Container = styled.View`
   flex: 1;
@@ -28,31 +30,42 @@ const Title = styled.Text`
 `
 
 const Details: React.SFC<NavigationScreenProps> = props => {
-  const productName = props.navigation.getParam('productName', 'MacBook Pro 13')
+  const productId = props.navigation.getParam('productId', '')
 
   return (
     <Query<ProductQuery, ProductQueryVariables>
       query={productQuery}
-      variables={{ name: productName }}
+      variables={{ id: productId }}
     >
-      {({ loading, error, data: { product } }) => {
-        if (loading) return null
-        if (error) return `Error!: ${error}`
+      {({ loading, error, data }) => {
+        let product: ProductQuery_product | null = null
 
-        return (
-          <Container>
-            <Label>Nome:</Label>
-            <Title>{product.name}</Title>
-            <Label>Descrição:</Label>
-            <Title>{product.description}</Title>
-            <Label>Quantidade:</Label>
-            <Title>{product.quantity}</Title>
-            <Label>Preço:</Label>
-            <Title>{product.price}</Title>
-            <Label>Fornecedor:</Label>
-            <Title>{product.provider}</Title>
-          </Container>
-        )
+        if (loading) return null
+        if (error)
+          return (
+            <View>
+              <Text>{`Erro: ${error}`}</Text>
+            </View>
+          )
+
+        if (data && data.product) {
+          product = data.product
+
+          return (
+            <Container>
+              <Label>Nome:</Label>
+              <Title>{product.name}</Title>
+              <Label>Descrição:</Label>
+              <Title>{product.description}</Title>
+              <Label>Quantidade:</Label>
+              <Title>{product.quantity}</Title>
+              <Label>Preço:</Label>
+              <Title>{product.price}</Title>
+              <Label>Fornecedor:</Label>
+              <Title>{product.provider}</Title>
+            </Container>
+          )
+        }
       }}
     </Query>
   )
