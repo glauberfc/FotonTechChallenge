@@ -1,6 +1,10 @@
 import * as React from 'react'
 import { Query } from 'react-apollo'
-import { NavigationScreenProps } from 'react-navigation'
+import {
+  NavigationScreenProps,
+  NavigationScreenOptions,
+  NavigationStackScreenOptions,
+} from 'react-navigation'
 
 import styled from '../styled-components-config'
 import { productQuery } from '../graphql/queries'
@@ -29,7 +33,9 @@ const Title = styled.Text`
   color: #333;
 `
 
-const Details: React.SFC<NavigationScreenProps> = props => {
+const Details: React.SFC<
+  NavigationScreenProps & NavigationStackScreenOptions
+> = props => {
   const productId = props.navigation.getParam('productId', '')
 
   return (
