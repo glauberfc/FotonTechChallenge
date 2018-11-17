@@ -1,4 +1,7 @@
-export default interface ThemeInterface {
+export interface ThemeInterface {
   primaryColor: string
-  primaryColorInverted: string
+}
+
+export const theme = {
+  primaryColor: '#7F25FB',
 }
