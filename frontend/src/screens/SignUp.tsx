@@ -16,7 +16,7 @@ const signUpSchema = Yup.object().shape({
   password: Yup.string()
     .min(2, 'A senha deve conter no mínmo 3 caracteres')
     .required('Campo obrigatório'),
-  confirmPassword: Yup.string()
+  passwordConfirmation: Yup.string()
     .oneOf([Yup.ref('password')], 'As senhas devem ser iguais')
     .required('Campo obrigatório'),
 })
@@ -25,24 +25,45 @@ interface Values {
   name: string
   email: string
   password: string
-  confirmPassword: string
+  passwordConfirmation: string
 }
 
 interface Props {
   signUp: (name: string, email: string, password: string) => Promise<void>
-  changeLoginState: (loggedIn: boolean, token: string) => void
 }
 
 const SignUp: React.SFC<
   FormikProps<Values> & NavigationScreenProps & Props
 > = props => (
   <Formik
-    initialValues={{ name: 'Glauber', email: 'g@mail.com', password: '123' }}
-    onSubmit={async values => {
+    initialValues={{
+      name: '',
+      email: '',
+      password: '',
+      passwordConfirmation: '',
+    }}
+    onSubmit={async (values, actions) => {
       const { name, email, password } = values
-      const result = (await props.signUp(name, email, password)) as any
-      // Update login state to true
-      props.changeLoginState(true, result.data.signUp.token)
+
+      try {
+        const result = (await props.signUp(name, email, password)) as any
+        // Reset Form
+        actions.resetForm()
+        // Update login state to true
+        props.screenProps &&
+          props.screenProps.changeLoginState(true, result.data.signUp.token)
+      } catch (error) {
+        // If erros send error feedback
+        props.screenProps &&
+          props.screenProps.updateAlertMessage({
+            showAlert: true,
+            showProgress: false,
+            alertTitle: 'Ops! Não foi possível cadastrar o usuário',
+            alertMessage: error.graphQLErrors
+              ? error.graphQLErrors[0].message
+              : 'Verifique se você forneceu todas as informações corretamente ou tente novamente mais tarde.',
+          })
+      }
     }}
     validationSchema={signUpSchema}
   >
@@ -83,15 +104,15 @@ const SignUp: React.SFC<
         <Text>{props.errors.password}</Text>
 
         <TextInput
-          onChangeText={props.handleChange('confirmPassword')}
+          onChangeText={props.handleChange('passwordConfirmation')}
           onBlur={() => {
-            props.handleBlur('confirmPassword')
+            props.handleBlur('passwordConfirmation')
           }}
-          value={props.values.confirmPassword}
+          value={props.values.passwordConfirmation}
           secureTextEntry
           placeholder="Confirmação de senha"
         />
-        <Text>{props.errors.confirmPassword}</Text>
+        <Text>{props.errors.passwordConfirmation}</Text>
 
         <Button onPress={() => props.handleSubmit()} title="Submit" />
       </View>

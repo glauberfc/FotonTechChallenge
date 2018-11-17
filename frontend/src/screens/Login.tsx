@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { TextInput, View } from 'react-native'
+import { TextInput, View, Text } from 'react-native'
 import { Formik, FormikProps } from 'formik'
 import * as Yup from 'yup'
 import { NavigationScreenProps } from 'react-navigation'
@@ -12,7 +12,9 @@ const loginSchema = Yup.object().shape({
   email: Yup.string()
     .email('E-mail inválido')
     .required('Campo obrigatório'),
-  password: Yup.string().min(2, 'A senha deve conter no mínmo 3 caracteres'),
+  password: Yup.string()
+    .min(3, 'A senha deve conter no mínmo 3 caracteres')
+    .required('Campo obrigatório'),
 })
 
 interface Values {
@@ -30,11 +32,28 @@ const Login: React.SFC<
 > = props => (
   <Formik
     initialValues={{ email: '', password: '' }}
-    onSubmit={async values => {
+    onSubmit={async (values, actions) => {
       const { email, password } = values
-      const result = (await props.login(email, password)) as any
-      // Update login state to true
-      props.changeLoginState(true, result.data.signUp.token)
+
+      try {
+        const result = (await props.login(email, password)) as any
+        // Reset Form
+        actions.resetForm()
+        // Update login state to true
+        props.screenProps &&
+          props.screenProps.changeLoginState(true, result.data.login.token)
+      } catch (error) {
+        // If erros send error feedback
+        props.screenProps &&
+          props.screenProps.updateAlertMessage({
+            showAlert: true,
+            showProgress: false,
+            alertTitle: 'Ops! Não foi possível efetuar o login',
+            alertMessage: error.graphQLErrors
+              ? error.graphQLErrors[0].message
+              : 'Verifique se você forneceu todas as informações corretamente ou tente novamente mais tarde.',
+          })
+      }
     }}
     validationSchema={loginSchema}
   >
@@ -51,6 +70,7 @@ const Login: React.SFC<
           placeholder="E-mail"
           autoCapitalize="none"
         />
+        <Text>{props.errors.email}</Text>
 
         <TextInput
           onChangeText={props.handleChange('password')}
@@ -61,6 +81,7 @@ const Login: React.SFC<
           secureTextEntry
           placeholder="Senha"
         />
+        <Text>{props.errors.password}</Text>
 
         <Button onPress={() => props.handleSubmit()} title="Submit" />
       </View>
@@ -77,4 +98,4 @@ export default graphql(loginMutation, {
     login: (email: string, password: string) =>
       mutate({ variables: { email, password } }),
   }),
-})(Login)
+})(Login as any)
