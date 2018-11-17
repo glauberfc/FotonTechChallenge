@@ -2,7 +2,6 @@ import * as React from 'react'
 import { Query } from 'react-apollo'
 import {
   NavigationScreenProps,
-  NavigationScreenOptions,
   NavigationStackScreenOptions,
 } from 'react-navigation'
 
