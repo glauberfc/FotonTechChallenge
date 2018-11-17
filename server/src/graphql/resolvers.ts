@@ -36,6 +36,13 @@ export const resolvers: IResolvers = {
       throw new Error('Não autenticado!')
     },
     signUp: async (_, args) => {
+      // Verify if there is a user with same email
+      if (await User.findOne({ email: args.email })) {
+        throw new Error(
+          'Já existe um usuário cadastrado com o e-mail informado'
+        )
+      }
+
       const password = await bcrypt.hash(args.password, 10)
       const user = await new User({ ...args, password }).save()
       const token = jwt.sign({ userId: user.id }, APP_SECRET)
