@@ -1,7 +1,6 @@
 import {
   createStackNavigator,
   NavigationScreenOptions,
-  createBottomTabNavigator,
   createSwitchNavigator,
 } from 'react-navigation'
 
@@ -9,8 +8,8 @@ import Login from '../screens/Login'
 import SignUp from '../screens/SignUp'
 import Home from '../screens/Home'
 import Details from '../screens/Details'
-import RegisterProduct from '../screens/RegisterProduct'
 import AuthLoading from '../screens/AuthLoading'
+import RegisterProduct from '../screens/RegisterProduct'
 import { theme } from '../theme'
 
 const navigationOptions: NavigationScreenOptions = {

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, Button as NativeButtton } from 'react-native'
+import { Button as NativeButtton } from 'react-native'
 import { Formik, FormikProps, Field } from 'formik'
 import * as Yup from 'yup'
 import { NavigationScreenProps } from 'react-navigation'
