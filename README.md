@@ -27,3 +27,6 @@ Após instalar as dependências execute o seguinte comando para iniciar a aplica
 `react-native run-ios`
 
 Caso a aplicação já tenha sido instalada uma vez no dispositivo ou simulador pode-se executar apenas `yarn start` ao invés do comando a cima
+
+## Erros conhecidos
+Existem alguns erros de tipagem no frontend
