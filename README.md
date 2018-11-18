@@ -1,4 +1,4 @@
-# FotonTech Challenge
+# Foton Challenge
  > Desafios separaram desistentes de persistentes
  
  ## Instalação
@@ -26,4 +26,4 @@ Após iniciar o servidor abra uma nova aba do terminal na pasta *frotend* que es
 Após instalar as dependências execute o seguinte comando para iniciar a aplicação:
 `react-native run-ios`
 
-Caso a aplicação já tenha sido instalada uma vez no dispositivo ou simulado pode-se executar apenas `yarn start` ao invés do comando a cima
+Caso a aplicação já tenha sido instalada uma vez no dispositivo ou simulador pode-se executar apenas `yarn start` ao invés do comando a cima
