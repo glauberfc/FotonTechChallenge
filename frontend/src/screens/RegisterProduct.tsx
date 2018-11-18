@@ -3,13 +3,13 @@ import { TextInput, View, Text } from 'react-native'
 import { Formik, FormikProps } from 'formik'
 import * as Yup from 'yup'
 import { NavigationScreenProps } from 'react-navigation'
-// import AwesomeAlert from 'react-native-awesome-alerts'
 
 import Button from '../components/Button'
 import { graphql } from 'react-apollo'
 import { addProductMutation } from '../graphql/mutation'
 import { ThemeInterface } from '../theme'
 import { withTheme } from 'styled-components'
+import { showMessage } from 'react-native-flash-message'
 
 const signUpSchema = Yup.object().shape({
   name: Yup.string().required('Campo obrigatório'),
@@ -83,14 +83,13 @@ const RegisterProduct: React.SFC<
           actions.resetForm()
         } catch (error) {
           // If erros send error feedback
-          screenProps &&
-            screenProps.updateAlertMessage({
-              showAlert: true,
-              showProgress: false,
-              alertTitle: 'Ops! Não foi possível salvar o produto',
-              alertMessage:
-                'Verifique se você forneceu todas as informações corretamente ou tente novamente mais tarde.',
-            })
+          showMessage({
+            message: 'Ops! Não foi possível salvar o produto',
+            description: error.graphQLErrors
+              ? error.graphQLErrors[0].message
+              : 'Verifique se você forneceu todas as informações corretamente ou tente novamente mais tarde.',
+            type: 'danger',
+          })
         }
       }}
       validationSchema={signUpSchema}

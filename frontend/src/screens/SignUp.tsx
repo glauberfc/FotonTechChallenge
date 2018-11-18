@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { TextInput, View, Text } from 'react-native'
+import { TextInput, View, Text, Button as NativeButtton } from 'react-native'
 import { Formik, FormikProps } from 'formik'
 import * as Yup from 'yup'
 import { NavigationScreenProps } from 'react-navigation'
@@ -7,6 +7,8 @@ import { NavigationScreenProps } from 'react-navigation'
 import Button from '../components/Button'
 import { graphql } from 'react-apollo'
 import { signUpMutation } from '../graphql/mutation'
+import { showMessage } from 'react-native-flash-message'
+import { signIn } from '../utils'
 
 const signUpSchema = Yup.object().shape({
   name: Yup.string().required('Campo obrigatório'),
@@ -34,7 +36,7 @@ interface Props {
 
 const SignUp: React.SFC<
   FormikProps<Values> & NavigationScreenProps & Props
-> = props => (
+> = ({ signUp, navigation }) => (
   <Formik
     initialValues={{
       name: '',
@@ -46,23 +48,20 @@ const SignUp: React.SFC<
       const { name, email, password } = values
 
       try {
-        const result = (await props.signUp(name, email, password)) as any
+        const result = (await signUp(name, email, password)) as any
         // Reset Form
         actions.resetForm()
-        // Update login state to true
-        props.screenProps &&
-          props.screenProps.changeLoginState(true, result.data.signUp.token)
+        await signIn(result.data.signUp.token)
+        navigation.navigate('AppTab')
       } catch (error) {
         // If erros send error feedback
-        props.screenProps &&
-          props.screenProps.updateAlertMessage({
-            showAlert: true,
-            showProgress: false,
-            alertTitle: 'Ops! Não foi possível cadastrar o usuário',
-            alertMessage: error.graphQLErrors
-              ? error.graphQLErrors[0].message
-              : 'Verifique se você forneceu todas as informações corretamente ou tente novamente mais tarde.',
-          })
+        showMessage({
+          message: 'Ops! Não foi possível cadastrar o usuário',
+          description: error.graphQLErrors
+            ? error.graphQLErrors[0].message
+            : 'Verifique se você forneceu todas as informações corretamente ou tente novamente mais tarde.',
+          type: 'danger',
+        })
       }
     }}
     validationSchema={signUpSchema}
@@ -115,6 +114,10 @@ const SignUp: React.SFC<
         <Text>{props.errors.passwordConfirmation}</Text>
 
         <Button onPress={() => props.handleSubmit()} title="Submit" />
+        <NativeButtton
+          onPress={() => navigation.navigate('Login')}
+          title="Login"
+        />
       </View>
     )}
   </Formik>

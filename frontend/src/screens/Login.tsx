@@ -1,12 +1,14 @@
 import * as React from 'react'
-import { TextInput, View, Text } from 'react-native'
+import { TextInput, View, Text, Button as NativeButtton } from 'react-native'
 import { Formik, FormikProps } from 'formik'
 import * as Yup from 'yup'
 import { NavigationScreenProps } from 'react-navigation'
+import { showMessage } from 'react-native-flash-message'
 
 import Button from '../components/Button'
 import { graphql } from 'react-apollo'
 import { loginMutation } from '../graphql/mutation'
+import { signIn } from '../utils'
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -27,32 +29,31 @@ interface Props {
   changeLoginState: (loggedIn: boolean, token: string) => void
 }
 
-const Login: React.SFC<
-  FormikProps<Values> & NavigationScreenProps & Props
-> = props => (
+const Login: React.SFC<FormikProps<Values> & NavigationScreenProps & Props> = ({
+  login,
+  navigation,
+}) => (
   <Formik
     initialValues={{ email: '', password: '' }}
     onSubmit={async (values, actions) => {
       const { email, password } = values
 
       try {
-        const result = (await props.login(email, password)) as any
+        const result = (await login(email, password)) as any
         // Reset Form
         actions.resetForm()
-        // Update login state to true
-        props.screenProps &&
-          props.screenProps.changeLoginState(true, result.data.login.token)
+
+        await signIn(result.data.login.token)
+        navigation.navigate('AppTab')
       } catch (error) {
         // If erros send error feedback
-        props.screenProps &&
-          props.screenProps.updateAlertMessage({
-            showAlert: true,
-            showProgress: false,
-            alertTitle: 'Ops! Não foi possível efetuar o login',
-            alertMessage: error.graphQLErrors
-              ? error.graphQLErrors[0].message
-              : 'Verifique se você forneceu todas as informações corretamente ou tente novamente mais tarde.',
-          })
+        showMessage({
+          message: 'Ops! Não foi possível efetuar o login',
+          description: error.graphQLErrors
+            ? error.graphQLErrors[0].message
+            : 'Verifique se você forneceu todas as informações corretamente ou tente novamente mais tarde.',
+          type: 'danger',
+        })
       }
     }}
     validationSchema={loginSchema}
@@ -84,6 +85,10 @@ const Login: React.SFC<
         <Text>{props.errors.password}</Text>
 
         <Button onPress={() => props.handleSubmit()} title="Submit" />
+        <NativeButtton
+          onPress={() => navigation.navigate('SignUp')}
+          title="Cadastrar"
+        />
       </View>
     )}
   </Formik>
