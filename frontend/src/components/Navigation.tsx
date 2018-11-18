@@ -11,10 +11,11 @@ import Home from '../screens/Home'
 import Details from '../screens/Details'
 import RegisterProduct from '../screens/RegisterProduct'
 import AuthLoading from '../screens/AuthLoading'
+import { theme } from '../theme'
 
 const navigationOptions: NavigationScreenOptions = {
   headerStyle: {
-    backgroundColor: '#f4511e',
+    backgroundColor: theme.primaryColor,
   },
   headerTintColor: '#fff',
   headerTitleStyle: {
@@ -26,20 +27,11 @@ const HomeStack = createStackNavigator(
   {
     Home,
     Details,
+    RegisterProduct,
   },
   {
     initialRouteName: 'Home',
     navigationOptions,
-  }
-)
-
-const AppTab = createBottomTabNavigator(
-  {
-    HomeStack,
-    RegisterProduct,
-  },
-  {
-    initialRouteName: 'HomeStack',
   }
 )
 
@@ -57,7 +49,7 @@ const AuthStack = createStackNavigator(
 export default createSwitchNavigator(
   {
     AuthLoading,
-    AppTab,
+    HomeStack,
     AuthStack,
   },
   {
