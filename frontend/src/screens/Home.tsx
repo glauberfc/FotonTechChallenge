@@ -106,14 +106,14 @@ const Home: React.SFC<NavigationScreenProps> = props => {
   )
 }
 
-Home.navigationOptions = props => ({
+Home.navigationOptions = ({ navigation }) => ({
   title: 'Foton Store',
   headerBackTitle: null,
   headerRight: (
     <NativeButton
       onPress={() => {
         signOut()
-        props.screenProps.changeLoginState(false)
+        navigation.navigate('AuthStack')
       }}
       title="Sair"
       color="#fff"

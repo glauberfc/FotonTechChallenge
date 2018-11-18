@@ -1,10 +1,16 @@
-import { createStackNavigator, NavigationScreenOptions } from 'react-navigation'
+import {
+  createStackNavigator,
+  NavigationScreenOptions,
+  createBottomTabNavigator,
+  createSwitchNavigator,
+} from 'react-navigation'
 
 import Login from '../screens/Login'
 import SignUp from '../screens/SignUp'
 import Home from '../screens/Home'
 import Details from '../screens/Details'
 import RegisterProduct from '../screens/RegisterProduct'
+import AuthLoading from '../screens/AuthLoading'
 
 const navigationOptions: NavigationScreenOptions = {
   headerStyle: {
@@ -16,11 +22,10 @@ const navigationOptions: NavigationScreenOptions = {
   },
 }
 
-export const RootStack = createStackNavigator(
+const HomeStack = createStackNavigator(
   {
     Home,
     Details,
-    RegisterProduct,
   },
   {
     initialRouteName: 'Home',
@@ -28,14 +33,34 @@ export const RootStack = createStackNavigator(
   }
 )
 
-export const AuthStack = createStackNavigator(
+const AppTab = createBottomTabNavigator(
+  {
+    HomeStack,
+    RegisterProduct,
+  },
+  {
+    initialRouteName: 'HomeStack',
+  }
+)
+
+const AuthStack = createStackNavigator(
   {
     Login,
     SignUp,
-    RootStack,
   },
   {
     initialRouteName: 'Login',
     navigationOptions,
+  }
+)
+
+export default createSwitchNavigator(
+  {
+    AuthLoading,
+    AppTab,
+    AuthStack,
+  },
+  {
+    initialRouteName: 'AuthLoading',
   }
 )

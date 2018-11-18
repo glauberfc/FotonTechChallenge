@@ -3,10 +3,11 @@ import { AppRegistry, AsyncStorage } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
 import ApolloClient from 'apollo-boost'
 
-import App from './src/components/App'
 import { name as appName } from './app.json'
 import { ThemeProvider } from './src/styled-components-config'
 import { theme } from './src/theme'
+import Navigation from './src/components/Navigation'
+import FlashMessage from 'react-native-flash-message'
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
@@ -23,12 +24,15 @@ const client = new ApolloClient({
   },
 })
 
-const Root = () => (
+const App = () => (
   <ApolloProvider client={client}>
     <ThemeProvider theme={theme}>
-      <App />
+      <React.Fragment>
+        <Navigation />
+        <FlashMessage position="top" />
+      </React.Fragment>
     </ThemeProvider>
   </ApolloProvider>
 )
 
-AppRegistry.registerComponent(appName, () => Root)
+AppRegistry.registerComponent(appName, () => App)
