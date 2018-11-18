@@ -65,7 +65,7 @@ const Details: React.SFC<
               <Label>Quantidade:</Label>
               <Title>{product.quantity}</Title>
               <Label>Preço:</Label>
-              <Title>{product.price}</Title>
+              <Title>R$ {product.price}</Title>
               <Label>Fornecedor:</Label>
               <Title>{product.provider}</Title>
             </Container>
