@@ -67,7 +67,7 @@ const Home: React.SFC<NavigationScreenProps> = props => {
         if (error)
           return (
             <View>
-              <Text>{`Error!: ${error}`}</Text>
+              <Text>{`${error}`}</Text>
             </View>
           )
 
