@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { TextInput, View, Text, Button as NativeButtton } from 'react-native'
-import { Formik, FormikProps } from 'formik'
+import { View, Button as NativeButtton } from 'react-native'
+import { Formik, FormikProps, Field } from 'formik'
 import * as Yup from 'yup'
 import { NavigationScreenProps } from 'react-navigation'
 import { showMessage } from 'react-native-flash-message'
@@ -9,6 +9,7 @@ import Button from '../components/Button'
 import { graphql } from 'react-apollo'
 import { loginMutation } from '../graphql/mutation'
 import { signIn } from '../utils'
+import InputField from '../components/InputField'
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -60,29 +61,21 @@ const Login: React.SFC<FormikProps<Values> & NavigationScreenProps & Props> = ({
   >
     {props => (
       <View style={{ flex: 1 }}>
-        <TextInput
-          onChangeText={props.handleChange('email')}
-          onBlur={() => {
-            props.handleBlur('email')
-          }}
-          autoFocus
-          value={props.values.email}
-          keyboardType="email-address"
+        <Field
+          name="email"
           placeholder="E-mail"
+          component={InputField}
+          autoFocus
+          keyboardType="email-address"
           autoCapitalize="none"
         />
-        <Text>{props.errors.email}</Text>
 
-        <TextInput
-          onChangeText={props.handleChange('password')}
-          onBlur={() => {
-            props.handleBlur('password')
-          }}
-          value={props.values.password}
-          secureTextEntry
+        <Field
+          name="password"
+          component={InputField}
           placeholder="Senha"
+          secureTextEntry
         />
-        <Text>{props.errors.password}</Text>
 
         <Button onPress={() => props.handleSubmit()} title="Submit" />
         <NativeButtton

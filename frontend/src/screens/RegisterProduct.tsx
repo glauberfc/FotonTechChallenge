@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { TextInput, View, Text } from 'react-native'
-import { Formik, FormikProps } from 'formik'
+import { View } from 'react-native'
+import { Formik, FormikProps, Field } from 'formik'
 import * as Yup from 'yup'
 import { NavigationScreenProps } from 'react-navigation'
 
@@ -10,11 +10,11 @@ import { addProductMutation } from '../graphql/mutation'
 import { ThemeInterface } from '../theme'
 import { withTheme } from 'styled-components'
 import { showMessage } from 'react-native-flash-message'
+import InputField from '../components/InputField'
 
 const signUpSchema = Yup.object().shape({
   name: Yup.string().required('Campo obrigatório'),
   description: Yup.string().required('Campo obrigatório'),
-  // 'Informe um valor numérico'
   quantity: Yup.number().required('Campo obrigatório'),
   price: Yup.number().required('Campo obrigatório'),
   provider: Yup.string().required('Campo obrigatório'),
@@ -96,58 +96,38 @@ const RegisterProduct: React.SFC<
     >
       {props => (
         <View style={{ flex: 1 }}>
-          <TextInput
-            onChangeText={props.handleChange('name')}
-            onBlur={() => {
-              props.handleBlur('name')
-            }}
-            autoFocus
-            value={props.values.name}
+          <Field
+            name="name"
             placeholder="Nome"
+            component={InputField}
+            autoFocus
           />
-          <Text>{props.errors.name}</Text>
 
-          <TextInput
-            onChangeText={props.handleChange('description')}
-            onBlur={() => {
-              props.handleBlur('description')
-            }}
-            value={props.values.description}
+          <Field
+            name="description"
             placeholder="Descrição"
+            component={InputField}
           />
-          <Text>{props.errors.description}</Text>
 
-          <TextInput
-            onChangeText={props.handleChange('quantity')}
-            onBlur={() => {
-              props.handleBlur('quantity')
-            }}
-            keyboardType="numeric"
-            value={props.values.quantity}
+          <Field
+            name="quantity"
             placeholder="Quantidade em estoque"
-          />
-          <Text>{props.errors.quantity}</Text>
-
-          <TextInput
-            onChangeText={props.handleChange('price')}
-            onBlur={() => {
-              props.handleBlur('price')
-            }}
+            component={InputField}
             keyboardType="numeric"
-            value={props.values.price}
-            placeholder="Preço"
           />
-          <Text>{props.errors.price}</Text>
 
-          <TextInput
-            onChangeText={props.handleChange('provider')}
-            onBlur={() => {
-              props.handleBlur('provider')
-            }}
-            value={props.values.provider}
-            placeholder="Fornecedor"
+          <Field
+            name="price"
+            placeholder="Preço"
+            component={InputField}
+            keyboardType="numeric"
           />
-          <Text>{props.errors.provider}</Text>
+
+          <Field
+            name="provider"
+            placeholder="Fornecedor"
+            component={InputField}
+          />
 
           <Button onPress={() => props.handleSubmit()} title="Salvar" />
         </View>

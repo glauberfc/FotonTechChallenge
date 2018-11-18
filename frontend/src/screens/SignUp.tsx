@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { TextInput, View, Text, Button as NativeButtton } from 'react-native'
-import { Formik, FormikProps } from 'formik'
+import { View, Text, Button as NativeButtton } from 'react-native'
+import { Formik, FormikProps, Field } from 'formik'
 import * as Yup from 'yup'
 import { NavigationScreenProps } from 'react-navigation'
 
@@ -9,6 +9,7 @@ import { graphql } from 'react-apollo'
 import { signUpMutation } from '../graphql/mutation'
 import { showMessage } from 'react-native-flash-message'
 import { signIn } from '../utils'
+import InputField from '../components/InputField'
 
 const signUpSchema = Yup.object().shape({
   name: Yup.string().required('Campo obrigatório'),
@@ -68,50 +69,34 @@ const SignUp: React.SFC<
   >
     {props => (
       <View style={{ flex: 1 }}>
-        <TextInput
-          autoFocus
-          onChangeText={props.handleChange('name')}
-          onBlur={() => {
-            props.handleBlur('name')
-          }}
-          value={props.values.name}
+        <Field
+          name="name"
           placeholder="Nome"
+          component={InputField}
+          autoFocus
         />
-        <Text>{props.errors.name}</Text>
 
-        <TextInput
-          onChangeText={props.handleChange('email')}
-          onBlur={() => {
-            props.handleBlur('email')
-          }}
-          value={props.values.email}
-          keyboardType="email-address"
+        <Field
+          name="email"
           placeholder="E-mail"
+          component={InputField}
+          keyboardType="email-address"
           autoCapitalize="none"
         />
-        <Text>{props.errors.email}</Text>
 
-        <TextInput
-          onChangeText={props.handleChange('password')}
-          onBlur={() => {
-            props.handleBlur('password')
-          }}
-          value={props.values.password}
-          secureTextEntry
+        <Field
+          name="password"
+          component={InputField}
           placeholder="Senha"
-        />
-        <Text>{props.errors.password}</Text>
-
-        <TextInput
-          onChangeText={props.handleChange('passwordConfirmation')}
-          onBlur={() => {
-            props.handleBlur('passwordConfirmation')
-          }}
-          value={props.values.passwordConfirmation}
           secureTextEntry
-          placeholder="Confirmação de senha"
         />
-        <Text>{props.errors.passwordConfirmation}</Text>
+
+        <Field
+          name="passwordConfirmation"
+          placeholder="Confirmação de senha"
+          component={InputField}
+          secureTextEntry
+        />
 
         <Button onPress={() => props.handleSubmit()} title="Submit" />
         <NativeButtton
