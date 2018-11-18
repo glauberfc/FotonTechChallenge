@@ -11,6 +11,7 @@ import { ThemeInterface } from '../theme'
 import { withTheme } from 'styled-components'
 import { showMessage } from 'react-native-flash-message'
 import InputField from '../components/InputField'
+import styled from '../styled-components-config'
 
 const signUpSchema = Yup.object().shape({
   name: Yup.string().required('Campo obrigatório'),
@@ -20,6 +21,11 @@ const signUpSchema = Yup.object().shape({
   provider: Yup.string().required('Campo obrigatório'),
 })
 
+const Container = styled.View`
+  flex: 1;
+  padding: 18px 18px 0;
+  background-color: #fff;
+`
 interface Values {
   name: string
   description: string
@@ -79,7 +85,7 @@ const RegisterProduct: React.SFC<
             message: 'Produto salvo com sucesso!',
             description:
               'O produto foi cadastrado corretamente. Você pode voltar e ver produto na lista.',
-            type: 'danger',
+            type: 'success',
           })
         } catch (error) {
           // If erros send error feedback
@@ -95,7 +101,7 @@ const RegisterProduct: React.SFC<
       validationSchema={signUpSchema}
     >
       {props => (
-        <View style={{ flex: 1 }}>
+        <Container>
           <Field
             name="name"
             placeholder="Nome"
@@ -131,7 +137,7 @@ const RegisterProduct: React.SFC<
           />
 
           <Button onPress={() => props.handleSubmit()} title="Salvar" />
-        </View>
+        </Container>
       )}
     </Formik>
   )

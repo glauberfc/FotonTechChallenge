@@ -16,7 +16,7 @@ import { View, Text } from 'react-native'
 
 const Container = styled.View`
   flex: 1;
-  padding: 24px 24px 0;
+  padding: 18px 18px 0;
   background-color: #fff;
 `
 

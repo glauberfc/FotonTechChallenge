@@ -13,7 +13,7 @@ class AuthLoading extends React.Component<NavigationScreenProps> {
   async _bootstrapAsync() {
     const token = await getToken()
 
-    this.props.navigation.navigate(token ? 'AppTab' : 'AuthStack')
+    this.props.navigation.navigate(token ? 'HomeStack' : 'AuthStack')
   }
 
   render() {

@@ -15,6 +15,14 @@ import { signOut } from '../utils'
 const Container = styled.View`
   display: flex;
   justify-content: center;
+  padding: 18px 18px 0;
+  background-color: #fff;
+`
+
+const Top = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `
 
 const Title = styled.Text`
@@ -31,6 +39,7 @@ const Card = styled.View`
   margin: 4px 12px;
   padding: 16px;
   border-radius: 4px;
+  border: 1px solid ${props => props.theme.grayColor};
   background-color: #fff;
 `
 
@@ -76,7 +85,13 @@ const Home: React.SFC<NavigationScreenProps> = props => {
 
           return (
             <Container>
-              <Title>Produtos</Title>
+              <Top>
+                <Title>Produtos</Title>
+                <NativeButton
+                  title="Cadastrar produto"
+                  onPress={() => navigation.navigate('RegisterProduct')}
+                />
+              </Top>
 
               <FlatList
                 data={data.products}

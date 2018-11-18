@@ -10,6 +10,22 @@ import { graphql } from 'react-apollo'
 import { loginMutation } from '../graphql/mutation'
 import { signIn } from '../utils'
 import InputField from '../components/InputField'
+import styled from '../styled-components-config'
+
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  padding: 18px 18px 0;
+  background-color: #fff;
+`
+
+const Title = styled.Text`
+margin-bottom: 18px;
+  font-size: ${props => props.theme.largeTextSize}
+  color: ${props => props.theme.darkColor}
+  text-align: center;
+  font-weight: bold;
+`
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -41,11 +57,9 @@ const Login: React.SFC<FormikProps<Values> & NavigationScreenProps & Props> = ({
 
       try {
         const result = (await login(email, password)) as any
-        // Reset Form
-        actions.resetForm()
 
         await signIn(result.data.login.token)
-        navigation.navigate('AppTab')
+        navigation.navigate('HomeStack')
       } catch (error) {
         // If erros send error feedback
         showMessage({
@@ -60,7 +74,9 @@ const Login: React.SFC<FormikProps<Values> & NavigationScreenProps & Props> = ({
     validationSchema={loginSchema}
   >
     {props => (
-      <View style={{ flex: 1 }}>
+      <Container>
+        <Title>Foton Store</Title>
+
         <Field
           name="email"
           placeholder="E-mail"
@@ -77,12 +93,12 @@ const Login: React.SFC<FormikProps<Values> & NavigationScreenProps & Props> = ({
           secureTextEntry
         />
 
-        <Button onPress={() => props.handleSubmit()} title="Submit" />
+        <Button onPress={props.handleSubmit} title="Logar" />
         <NativeButtton
           onPress={() => navigation.navigate('SignUp')}
-          title="Cadastrar"
+          title="Cadastre-se"
         />
-      </View>
+      </Container>
     )}
   </Formik>
 )

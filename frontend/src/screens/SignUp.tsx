@@ -10,6 +10,7 @@ import { signUpMutation } from '../graphql/mutation'
 import { showMessage } from 'react-native-flash-message'
 import { signIn } from '../utils'
 import InputField from '../components/InputField'
+import styled from '../styled-components-config'
 
 const signUpSchema = Yup.object().shape({
   name: Yup.string().required('Campo obrigatório'),
@@ -23,6 +24,21 @@ const signUpSchema = Yup.object().shape({
     .oneOf([Yup.ref('password')], 'As senhas devem ser iguais')
     .required('Campo obrigatório'),
 })
+
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  padding: 18px 18px 0;
+  background-color: #fff;
+`
+
+const Title = styled.Text`
+margin-bottom: 18px;
+  font-size: ${props => props.theme.largeTextSize}
+  color: ${props => props.theme.darkColor}
+  text-align: center;
+  font-weight: bold;
+`
 
 interface Values {
   name: string
@@ -50,10 +66,9 @@ const SignUp: React.SFC<
 
       try {
         const result = (await signUp(name, email, password)) as any
-        // Reset Form
-        actions.resetForm()
+
         await signIn(result.data.signUp.token)
-        navigation.navigate('AppTab')
+        navigation.navigate('HomeStack')
       } catch (error) {
         // If erros send error feedback
         showMessage({
@@ -68,7 +83,9 @@ const SignUp: React.SFC<
     validationSchema={signUpSchema}
   >
     {props => (
-      <View style={{ flex: 1 }}>
+      <Container>
+        <Title>Foton Store</Title>
+
         <Field
           name="name"
           placeholder="Nome"
@@ -98,18 +115,18 @@ const SignUp: React.SFC<
           secureTextEntry
         />
 
-        <Button onPress={() => props.handleSubmit()} title="Submit" />
+        <Button onPress={props.handleSubmit} title="Salvar" />
         <NativeButtton
           onPress={() => navigation.navigate('Login')}
           title="Login"
         />
-      </View>
+      </Container>
     )}
   </Formik>
 )
 
 SignUp.navigationOptions = {
-  title: 'SignUp',
+  title: 'Realizar cadastro',
 }
 
 export default graphql(signUpMutation, {
