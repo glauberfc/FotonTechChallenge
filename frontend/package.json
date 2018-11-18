@@ -20,6 +20,7 @@
     "react-native": "0.57.1",
     "react-native-awesome-alerts": "^1.2.0",
     "react-native-flash-message": "^0.1.10",
+    "react-native-masked-text": "^1.9.2",
     "react-navigation": "^2.18.2",
     "styled-components": "^4.1.1",
     "yup": "^0.26.6"

@@ -4169,6 +4169,11 @@ mkdirp@^0.5.0, mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
+moment@2.19.3:
+  version "2.19.3"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.3.tgz#bdb99d270d6d7fda78cc0fbace855e27fe7da69f"
+  integrity sha1-vbmdJw1tf9p4zA+6zoVeJ/59pp8=
+
 morgan@^1.9.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.9.1.tgz#0a8d16734a1d9afbc824b99df87e738e58e2da59"
@@ -4855,6 +4860,14 @@ react-native-flash-message@^0.1.10:
   integrity sha512-hGOEoViRXLMR6cNry39qlDKG9QI+5rSQsjgzFZHcm+KlnuFoFJDuD2rdI92G8Tp85CHhYzhRGopYdT+RhQuOBA==
   dependencies:
     prop-types "^15.6.2"
+
+react-native-masked-text@^1.9.2:
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/react-native-masked-text/-/react-native-masked-text-1.9.2.tgz#184f661025a77608f30ebcda27f416be67968b27"
+  integrity sha512-+EctPpbQkXJe3ljWggkMRv4Fn+Oy7WKegFPKzK/N91qV9aZWZZwMosWDiH4u3aU+cO+GAjWAZn9ilSLGDroJrQ==
+  dependencies:
+    moment "2.19.3"
+    tinymask "^1.0.2"
 
 react-native-safe-area-view@0.11.0:
   version "0.11.0"
@@ -5762,6 +5775,11 @@ through@^2.3.6:
 time-stamp@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/time-stamp/-/time-stamp-1.1.0.tgz#764a5a11af50561921b133f3b44e618687e0f5c3"
+
+tinymask@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/tinymask/-/tinymask-1.0.2.tgz#df3775a94087b0d3d056c256e8923c01b7ec0941"
+  integrity sha1-3zd1qUCHsNPQVsJW6JI8AbfsCUE=
 
 title-case@^2.1.0:
   version "2.1.1"

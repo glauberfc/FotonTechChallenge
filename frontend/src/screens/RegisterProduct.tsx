@@ -16,7 +16,7 @@ const signUpSchema = Yup.object().shape({
   name: Yup.string().required('Campo obrigatório'),
   description: Yup.string().required('Campo obrigatório'),
   quantity: Yup.number().required('Campo obrigatório'),
-  price: Yup.number().required('Campo obrigatório'),
+  price: Yup.string().required('Campo obrigatório'),
   provider: Yup.string().required('Campo obrigatório'),
 })
 
@@ -42,7 +42,7 @@ interface Props {
 const RegisterProduct: React.SFC<
   FormikProps<Values> & NavigationScreenProps & Props
 > = props => {
-  const { addProduct, screenProps } = props
+  const { addProduct } = props
 
   return (
     <Formik
@@ -54,12 +54,12 @@ const RegisterProduct: React.SFC<
         provider: '',
       }}
       onSubmit={async (values, actions) => {
-        screenProps && screenProps.toggleAlert()
-
         const { name, description, quantity, price, provider } = values
         // Convert quantity and price
         const quantityConverted = parseInt(quantity)
-        const priceConverted = parseFloat(price)
+        const priceConverted = parseFloat(
+          price.replace(',', '.').replace('R$', '')
+        )
 
         // Try salve product
         try {
@@ -70,17 +70,17 @@ const RegisterProduct: React.SFC<
             priceConverted,
             provider
           )
-          // If no erros send success feedback
-          screenProps &&
-            screenProps.updateAlertMessage({
-              showAlert: true,
-              showProgress: false,
-              alertTitle: 'Produto salvo com sucesso!',
-              alertMessage:
-                'O produto foi cadastrado corretamente. Você pode voltar e ver produto na lista.',
-            })
+
           // Reset Form
           actions.resetForm()
+
+          // If no erros send success feedback
+          showMessage({
+            message: 'Produto salvo com sucesso!',
+            description:
+              'O produto foi cadastrado corretamente. Você pode voltar e ver produto na lista.',
+            type: 'danger',
+          })
         } catch (error) {
           // If erros send error feedback
           showMessage({
@@ -121,6 +121,7 @@ const RegisterProduct: React.SFC<
             placeholder="Preço"
             component={InputField}
             keyboardType="numeric"
+            maskMoney
           />
 
           <Field
